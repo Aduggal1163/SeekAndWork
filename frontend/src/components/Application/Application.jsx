@@ -38,26 +38,19 @@ const Application = () => {
     formDataObj.append("address", data.address);
     formDataObj.append("coverLetter", data.coverLetter);
     formDataObj.append("resume", resume);
-    // formDataObj.append("type", resumeType);
     formDataObj.append("jobId", id);
 
-    // console.log(data.name);
-    // console.log(data.email);
-    // console.log(data.phone);
     try {
       const { data } = await axios.post(
         "http://localhost:8080/api/v1/application/post",
         formDataObj,
         {
           withCredentials: true,
-          // headers: {
-          //   "Content-Type": "multipart/form-data",
-          // },
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
       );
-      console.log(data.name);
-    console.log(data.email);
-    console.log(data.phone);
       // setName("");
       // setEmail("");
       // setCoverLetter("");

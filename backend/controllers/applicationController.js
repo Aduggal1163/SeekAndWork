@@ -3,6 +3,7 @@ import ErrorHandler from "../middlewares/error.js";
 import { Application } from "../models/applicationSchema.js";
 import { Job } from "../models/jobSchema.js";
 import cloudinary from "cloudinary";
+import multer from 'multer';
 
 
 export const postApplication = catchAsyncErrors(async (req, res, next) => {
@@ -12,12 +13,14 @@ export const postApplication = catchAsyncErrors(async (req, res, next) => {
       new ErrorHandler("Employer not allowed to access this resource.", 400)
     );
   }
-  console.log(req.files);
+  
   if (!req.files || Object.keys(req.files).length === 0) {
     return next(new ErrorHandler("Please fill all the fields.", 400));
   }
 
   const { resume } = req.files;
+  console.log(req.files);
+  console.log(resume);
   // const allowedFormats = ["image/png", "image/jpeg", "image/webp"];
   // if (!allowedFormats.includes(resume.mimetype)) {
   //   return next(
@@ -27,7 +30,8 @@ export const postApplication = catchAsyncErrors(async (req, res, next) => {
   const cloudinaryResponse = await cloudinary.uploader.upload(
     resume.tempFilePath
   );
-
+  console.log(cloudinaryResponse);
+  
   if (!cloudinaryResponse || cloudinaryResponse.error) {
     console.error(
       "Cloudinary Error:",
@@ -111,6 +115,7 @@ export const jobseekerGetAllApplications = catchAsyncErrors(
     }
     const { _id } = req.user;
     const applications = await Application.find({ "applicantID.user": _id });
+    console.log("Applications Retrieved:", applications);
     res.status(200).json({
       success: true,
       applications,

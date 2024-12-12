@@ -260,7 +260,7 @@ const Register = () => {
                     required: { value: true, message: "Phone number is required." },
                     pattern: {
                       value: /^\d{10}$/,
-                      message: "Phone number must be exactly 10 digits long.",
+                      message: "Phone number is invalid.",
                     },
                   })} />
 
