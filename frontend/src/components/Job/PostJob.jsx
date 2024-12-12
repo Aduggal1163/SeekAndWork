@@ -138,6 +138,7 @@ const PostJob = () => {
       );
 
       toast.success(response.data.message);
+      reset();
       // Reset form or navigate to another page
     } catch (error) {
       toast.error(error.response?.data?.message || "An error occurred.");
@@ -147,6 +148,8 @@ const PostJob = () => {
   if (!isAuthorized || (user && user.role !== "Employer")) {
     navigate("/");
   }
+
+
 
   return (
     <div
@@ -216,6 +219,14 @@ const PostJob = () => {
                     message:
                       "Job title should only contain alphabetical characters.",
                   },
+                  maxLength: {
+                    value: 25,
+                    message: "Job title must be at most 25 characters long.",
+                  },
+                  minLength: {
+                    value: 5,
+                    message: "Job title must be at least of 5 characters",
+                  },
                 })}
               />
 
@@ -284,30 +295,37 @@ const PostJob = () => {
                 marginBottom: "20px",
               }}
             >
-              <input
-                type="text"
-                // value={country}
-                // onChange={(e) => setCountry(e.target.value)}
-                placeholder="Country"
-                style={{
-                  width: "100%",
-                  padding: "12px",
-                  border: "1px solid #e2e8f0",
-                  borderRadius: "8px",
-                  fontSize: "1rem",
-                }}
-                {...register("country", {
-                  required: {
-                    value: true,
-                    message: "Country is required.",
-                  },
-                  pattern: {
-                    value: /^[a-zA-Z\s]*$/, // Allows only alphabets and spaces
-                    message:
-                      "Country should only contain alphabetical characters.",
-                  },
-                })}
-              />
+              <select
+    {...register("country", {
+      required: {
+        value: true,
+        message: "Country is required.",
+      },
+    })}
+    style={{
+      width: "100%",
+      padding: "12px",
+      border: "1px solid #e2e8f0",
+      borderRadius: "8px",
+      fontSize: "1rem",
+    }}
+  >
+    <option value="">Select Country</option>
+    <option value="United States">United States</option>
+    <option value="Canada">Canada</option>
+    <option value="United Kingdom">United Kingdom</option>
+    <option value="Australia">Australia</option>
+    <option value="Germany">Germany</option>
+    <option value="France">France</option>
+    <option value="India">India</option>
+    <option value="China">China</option>
+    <option value="Japan">Japan</option>
+    <option value="Brazil">Brazil</option>
+    <option value="South Africa">South Africa</option>
+    <option value="Mexico">Mexico</option>
+    <option value="Italy">Italy</option>
+    <option value="Spain">Spain</option>
+  </select>
 
               {errors.country && (
                 <div
@@ -342,6 +360,14 @@ const PostJob = () => {
                     value: /^[a-zA-Z\s]*$/, // Allows only alphabets and spaces
                     message:
                       "City should only contain alphabetical characters.",
+                  },
+                  maxLength: {
+                    value: 20,
+                    message: "City must be at most 20 characters long.",
+                  },
+                  minLength: {
+                    value: 3,
+                    message: "City must be at least of 3 characters ",
                   },
                 })}
               />
